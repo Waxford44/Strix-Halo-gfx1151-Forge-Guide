@@ -126,6 +126,5 @@ Speed: 1.4-1.53 it/s
 🛑 Support Disclaimer
 This guide is provided "as-is" for the community. I am not a developer and cannot provide technical support or troubleshooting. If it works for you, awesome! If not, please check the official Forge or ROCm Discord servers.
 
-License
-MIT - Use freely.
+I hope this guide is helpful.
 
