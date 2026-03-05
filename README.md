@@ -4,7 +4,16 @@ Optimized Forge Neo setup for AMD Strix Halo (gfx1151) on CachyOS. This guide is
 🚀 Strix Halo: The Ultimate Forge Neo & ROCm 7.12 Optimization Guide
 
 🌟 Introduction
-The AMD Strix Halo (RDNA 3.5) is a revolutionary APU, but out-of-the-box performance on Windows or standard Linux distros is often limited to ~0.5 it/s. This guide shows you how to leverage CachyOS and ROCm 7.12 Nightlies to unlock 300% more performance, hitting 1.5+ it/s on SDXL models with a unified 32GB VRAM allocation. I am writing this one time guide because I found it difficult to find a linux guide on making stable diffusion work for this APU. Mostly because all available guides are written for Comfyui. But let's be honest, for enthusiasts, comfyui is anything other than comfy. Will I do understand the benefits and control it offers, those are features used by pro devs. If you are tired of pipelines, nodes, and just want to get some image generations done and have fun with your new APU,then you're in luck because Forge comes to the rescue. 
+The AMD Strix Halo (RDNA 3.5) is a revolutionary APU, but out-of-the-box performance on Windows or standard Linux distros is often limited to ~0.5 it/s. This guide shows you how to leverage CachyOS and ROCm 7.12 Nightlies to unlock 300% more performance, hitting 1.5+ it/s on SDXL models with a unified 32GB VRAM allocation. I am writing this one time guide because I found it difficult to find a linux guide on making stable diffusion work for this APU. Mostly because all available guides are written for Comfyui. But let's be honest, for enthusiasts, comfyui is anything other than comfy. Will I do understand the benefits and control it offers, those are features used by pro devs. If you are tired of pipelines, nodes, and just want to get some image generations done and have fun with your new APU, then you're in luck because Forge comes to the rescue. 
+
+🌟 Why Forge Neo for Strix Halo?
+Stable Diffusion WebUI Forge (Neo) represents the current "Goldilocks" zone for AI image generation on high-performance APUs like the Strix Halo. Here is why it is the preferred choice over alternatives like ComfyUI or standard Automatic1111:
+
+-Optimized Memory Management: Forge Neo features a redesigned backend that handles model loading and VRAM swapping more efficiently than standard WebUIs. For Strix Halo users with 32GB+ of unified memory, this translates directly to faster generation speeds and the ability to run massive Flux or SDXL models without "Out of Memory" (OOM) errors.
+
+-Superior User Experience: While ComfyUI offers high modularity, it requires a steep learning curve and complex node-based workflows. Forge Neo provides a refined, linear interface that is significantly more intuitive for daily artistic production while maintaining advanced control.
+
+-Next-Gen Hardware Support: Forge Neo is built to leverage modern ROCm stacks (7.12+) and BFloat16 precision natively. This ensures that RDNA 3.5 architecture is fully utilized, rather than falling back on legacy compatibility modes that degrade performance.
 
 💻 System Specs & Environment
 
@@ -32,9 +41,7 @@ Unlike traditional GPUs, Strix Halo shares its memory with the system. We need t
 Install CoreCtrl to manage APU power profiles. APU power management is broken without this, at least on the GMKtec. rocm-smi leaves the chip throttled.
 
 <pre>
-
-sudo pacman -S corectrl
-  </pre>
+sudo pacman -S corectrl</pre>
   
 Allocate VRAM: Reboot into your BIOS. Find the "UMA Framebuffer" or "VRAM" setting. Set this to 32GB. (If your BIOS is locked, the kernel will manage this via GTT, but BIOS-level reservation is more stable).
 
@@ -43,7 +50,6 @@ Forge Neo currently performs best on Python 3.11. Since CachyOS usually ships wi
 
 Install Python 3.11:
 <pre>
-
 sudo pacman -S python311
   </pre>
   
@@ -63,7 +69,7 @@ source venv/bin/activate.fish # Use .bash if not using Fish shell
 
 🏗 Step 3: Install ROCm 7.12 Nightlies
 
-Standard ROCm versions don't yet fully support the gfx1151 architecture of the Strix Halo. We use the nightly builds to get the latest instructions.TheROCk is AMD's official next-generation stack, not a community fork. ROCm is at 7.2 as of writing this guide. By using the Nightlies, the performance difference is dramatic.
+Standard ROCm versions don't yet fully support the gfx1151 architecture of the Strix Halo. We use the nightly builds to get the latest instructions. TheROCk is AMD's official next-generation stack, not a community fork. ROCm is at 7.2 as of writing this guide, but we need the 7.12 files. By using the Nightlies, the performance difference is dramatic.
 
 <pre>
 pip install --upgrade pip
@@ -105,7 +111,7 @@ python launch.py \
 
 Make it executable: <pre> chmod +x ~/start_neo.fish </pre>
 
-Launch it and let it install all the packages it needs. It will automatically detect the Nightlies torch files we manually installed earlier and skip them. The UI should pop up in your browser. Congratulations, you just managed to install Forge!
+Launch it and let it install all the packages it needs. It will automatically detect the Nightlies torch files we manually installed earlier and skip them. The UI should pop up in your browser. Congratulations, you just managed to install Forge! If by any chance errors do happen for you during launch, Gemini or your prefered AI chat bot should be able to walk you through them and help adapt.
 
 📊 Benchmark Results
 
