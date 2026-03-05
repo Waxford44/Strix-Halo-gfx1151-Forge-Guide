@@ -40,8 +40,9 @@ Unlike traditional GPUs, Strix Halo shares its memory with the system. We need t
 
 Install CoreCtrl to manage APU power profiles. APU power management is broken without this, at least on the GMKtec. rocm-smi leaves the chip throttled.
 
-<pre>
-sudo pacman -S corectrl</pre>
+```
+sudo pacman -S corectrl
+```
   
 Allocate VRAM: Reboot into your BIOS. Find the "UMA Framebuffer" or "VRAM" setting. Set this to 32GB. (If your BIOS is locked, the kernel will manage this via GTT, but BIOS-level reservation is more stable).
 
@@ -49,44 +50,47 @@ Allocate VRAM: Reboot into your BIOS. Find the "UMA Framebuffer" or "VRAM" setti
 Forge Neo currently performs best on Python 3.11. Since CachyOS usually ships with 3.13, we create a specific "jail" for Forge.
 
 Install Python 3.11:
-<pre>
+```
 sudo pacman -S python311
-  </pre>
+```
   
 Clone the Forge Neo Repository:
 
-<pre>
+```
 git clone https://github.com/Haoming02/sd-webui-forge-classic --branch neo forge-neo
 cd forge-neo
-  </pre>
+```
   
 Create and Activate the virtual environment:
 
-<pre>
+```
 python3.11 -m venv venv
 source venv/bin/activate.fish # Use .bash if not using Fish shell
-</pre>
+```
 
 🏗 Step 3: Install ROCm 7.12 Nightlies
 
 Standard ROCm versions don't yet fully support the gfx1151 architecture of the Strix Halo. We use the nightly builds to get the latest instructions. TheROCk is AMD's official next-generation stack, not a community fork. ROCm is at 7.2 as of writing this guide, but we need the 7.12 files. By using the Nightlies, the performance difference is dramatic.
 
-<pre>
+```
 pip install --upgrade pip
 pip uninstall torch torchvision torchaudio -y
-pip install --index-url https://rocm.nightlies.amd.com/v2/gfx1151/ torch torchvision torchaudio --force-reinstall</pre>
+pip install --index-url https://rocm.nightlies.amd.com/v2/gfx1151/ torch torchvision torchaudio --force-reinstall
+```
 
 Verify:
 
-<pre>
+```
 python -c "import torch; print(torch.__version__)"
-# It should say: 2.9.1+rocm7.12.0a20260303</pre>
+# It should say: 2.9.1+rocm7.12.0a20260303
+```
 
 ⚡ Step 4: The High-Performance Startup Script
 
 Create a file named start_neo.fish in your home directory. You can use the standard KWRITE app. This script contains the "magic" environment variables that prevent the GPU from crashing during heavy AI loads.
 
-<pre>#!/usr/bin/fish
+```
+#!/usr/bin/fish
 
 # 1. Environment Variables for Strix Halo Stability
 set -x HSA_ENABLE_SDMA 0
@@ -107,7 +111,10 @@ python launch.py \
     --bf16-text-enc \
     --skip-prepare-environment \
     --skip-version-check \
-    --disable-smart-memory</pre>
+    --disable-smart-memory
+```
+
+Note: Replace "YOUR_USER" with your actual Linux username.
 
 Make it executable: <pre> chmod +x ~/start_neo.fish </pre>
 
