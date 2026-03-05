@@ -1,4 +1,4 @@
-# Strix-Halo-gfx1151-Forge-Guide
+# Strix-Halo-gfx1151-Forge-Guide-Linux
 Optimized Forge Neo setup for AMD Strix Halo (gfx1151) on CachyOS. This guide is written as of February 2026. It is meant as a one time guide and was made in colaboration with Gemini 3.1. It is not a guide I will maintain.
 
 🚀 Strix Halo: The Ultimate Forge Neo & ROCm 7.12 Optimization Guide
